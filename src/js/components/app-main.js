@@ -1,8 +1,8 @@
-/** @jsx React.DOM */
-var React = require('react');
-var AppActions = require('../actions/app-actions.js');
-var AppStore = require('../stores/app-store.js');
-var Add = require('../components/app-add.js');
+
+import React from 'react';
+import AppActions from '../actions/app-actions.js';
+import AppStore from '../stores/app-store.js';
+import Add from '../components/app-add.js';
 
 var getAll = function() {
 
@@ -11,33 +11,33 @@ var getAll = function() {
 	}
 }
 
+class AppMain extends React.Component {
 
-var AppMain = React.createClass({
+  constructor(props) {
+    super(props);
+    this.state = getAll();
+  }
 
-	getInitialState: function() {
-		return getAll();
-	},
+	componentDidMount() {
+		AppStore.addChangeListener(this._onChange.bind(this));
+	}
 
-	componentDidMount: function() {
-		AppStore.addChangeListener(this._onChange);
-	},
+	componentWillUnmount() {
+		AppStore.removeChangeListener(this._onChange.bind(this));
+	}
 
-	componentWillUnmount: function() {
-		AppStore.removeChangeListener(this._onChange);
-	},
-
-	handleClick:function() {
+	handleClick() {
 		AppActions.addItem({
 			title: 'this is the item',
 			price:5
 		});
-	},
+	}
 
-	removeItem: function(index) {
+	removeItem(index) {
 		AppActions.removeItem(index);
-	},
+	}
 
-	render: function(){
+	render(){
 		var self = this;
 		return (
 			<div>
@@ -73,11 +73,11 @@ var AppMain = React.createClass({
 				<Add/>
 			</div>
 			);
-  	},
+  	}
 
-	_onChange: function() {
-		this.setState(getAll());
+    _onChange() {
+      this.setState(getAll());
 	}
-});
+}
 
-module.exports = AppMain;
+export default AppMain;

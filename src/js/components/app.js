@@ -1,15 +1,15 @@
-/** @jsx React.DOM */
-var React = require('react');
-var AddMain = require('../components/app-main.js');
 
-var APP = React.createClass({
-	render: function() {
+import React from 'react';
+import AddMain from '../components/app-main.js';
+
+class APP extends React.Component {
+	render() {
 		return (
 			<div>
 				<AddMain/>
 			</div>
 			);
-  	},
-});
+  	}
+}
 
-module.exports = APP;
+export default APP;

@@ -1,13 +1,19 @@
 var gulp = require('gulp');
-var browserify = require('gulp-browserify');
-//var babelify = require('babelify');
+var browserify = require('browserify');
+var babelify = require('babelify');
 var concat = require('gulp-concat');
+var source = require('vinyl-source-stream');
 
 gulp.task('browserify', function() {
-    gulp.src('src/js/main.js')
-      .pipe(browserify({ transform: 'reactify' }))
-      .pipe(concat('main.js'))
-      .pipe(gulp.dest('dist/js'));
+  browserify({
+    entries: './src/js/main.js',
+    extensions: ['.js'],
+    debug: true
+  })
+  .transform(babelify)
+  .bundle()
+  .pipe(source('main.js'))
+  .pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('copy', function() {

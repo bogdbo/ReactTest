@@ -1,36 +1,42 @@
-/** @jsx React.DOM */
-var React = require('react');
-var AppActions = require('../actions/app-actions.js');
-var AppStore = require('../stores/app-store.js');
+import React from 'react'
+import AppActions from '../actions/app-actions.js'
+import AppStore from '../stores/app-store.js';
 
-var Add = React.createClass({
+class Add extends React.Component {
+  constructor() {
+    super();
+    this.titleChange.bind(this);
+    this.priceChange.bind(this);
+    this.getTitleClass.bind(this);
+    this.getPriceClass.bind(this);
+    this.handleSubmit.bind(this);
+    this.render.bind(this);
 
-	getInitialState: function() {
-		return  {
+    this.state = {
 			validTitle : false,
 			validPrice : false,
-		}
-	},
+    }
+  }
 
-	titleChange: function() {
+	titleChange() {
 		var text =  this.refs.title.getDOMNode().value;
 		if (text.length > 3) {
 			this.setState({validTitle : true});
 		} else {
 			this.setState({validTitle : false});
 		}
-	},
+	}
 
-	priceChange: function() {
+	priceChange() {
 		var price =  this.refs.price.getDOMNode().value;
 		if (!isNaN(price) && price.length) {
 			this.setState({validPrice : true});
 		} else {
 			this.setState({validPrice : false});
 		}
-	},
+	}
 
-	handleSubmit: function() {
+	handleSubmit() {
 		var title = this.refs.title.getDOMNode().value;
 		var price = this.refs.price.getDOMNode().value;
 
@@ -41,38 +47,38 @@ var Add = React.createClass({
 		});
 
 		return false;
-	},
+	}
 
-  getTitleClass : function() {
+  getTitleClass() {
     var classes = 'input-group';
     if (!this.state.validTitle) {
       classes += ' has-error';
     }
 
     return classes;
-  },
+  }
 
-  getPriceClass : function() {
+  getPriceClass() {
     var classes = 'input-group';
     if (!this.state.validPrice) {
       classes += ' has-error';
     }
 
     return classes;
-  },
+  }
 
-	render: function() {
+	render() {
 
 		var self = this;
 
 		return (
-			<form class='form' onSubmit={this.handleSubmit}>
+			<form class='form' onSubmit={this.handleSubmit.bind(this)}>
 				<table>
 					<tr>
 						<td>
-							<div className={this.getTitleClass()} style={{width:'100%', 'margin-bottom':'5px'}}>
+							<div className={this.getTitleClass.call(this)} style={{width:'100%', 'margin-bottom':'5px'}}>
  								<span className={'input-group-addon'}>Title</span>
-								<input ref='title' onChange={this.titleChange} type='text' className={'form-control'} aria-label='Amount (to the nearest dollar)' />
+								<input ref='title' onChange={this.titleChange.bind(this)} type='text' className={'form-control'} aria-label='Amount (to the nearest dollar)' />
 							</div>
 						</td>
 					</tr>
@@ -80,7 +86,7 @@ var Add = React.createClass({
 						<td>
 							<div className={this.getPriceClass()}>
  								<span className={'input-group-addon'}>$</span>
-								<input ref='price' onChange={this.priceChange} type='text' className={'form-control'} aria-label='Amount (to the nearest dollar)' />
+								<input ref='price' onChange={this.priceChange.bind(this)} type='text' className={'form-control'} aria-label='Amount (to the nearest dollar)' />
 								<span className={'input-group-addon'}>.00</span>
 							</div>
 						</td>
@@ -88,8 +94,8 @@ var Add = React.createClass({
 					<tr>
 						<td>
 						{
-							(this.state.validPrice && this.state.validTitle)
-								? <input style={{float: 'right'}} type='submit' value='Submit' className={'btn'}/>
+							(this.state.validPrice && this.state.validTitle) ? 
+              <input style={{float: 'right'}} type='submit' value='Submit' className={'btn'}/>
 								: null
 						 }
 						</td>
@@ -98,6 +104,6 @@ var Add = React.createClass({
 			</form>
 		);
 	}
-});
+}
 
-module.exports = Add;
+export default Add;
