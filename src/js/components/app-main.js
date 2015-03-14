@@ -1,4 +1,3 @@
-
 import React from 'react';
 import AppActions from '../actions/app-actions.js';
 import AppStore from '../stores/app-store.js';
